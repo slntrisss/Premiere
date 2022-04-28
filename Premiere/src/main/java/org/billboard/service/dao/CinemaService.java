@@ -27,5 +27,18 @@ public class CinemaService {
     public CinemaInfo getCinemaById(int ID){
         return cinemaRepository.findOne(ID);
     }
+    public void save(CinemaInfo cinemaInfo){
+        cinemaRepository.save(cinemaInfo);
+    }
+    public void update(CinemaInfo cinemaInfo){
+        cinemaRepository.updateCinema(cinemaInfo);
+    }
 
+    public void delete(int ID){
+        cinemaRepository.delete(ID);
+    }
+
+    public int getLasId(){
+        return cinemaRepository.getLastIndex();
+    }
 }

@@ -22,7 +22,10 @@ public class CinemaRepository implements CrudRepository<CinemaInfo> {
 
     @Override
     public void save(CinemaInfo cinema) {
-        String sql = "INSERT INTO cinema VALUES(cinema_id_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "BEGIN " +
+                "INSERT INTO cinema VALUES(cinema_id_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?); " +
+                "COMMIT; " +
+                "END;";
         jdbcTemplate.update(sql, cinema.getName(), cinema.getAddress(), cinema.getPhone(),
                 cinema.getCinemaInfo(), cinema.getNumberOfHalls(), cinema.getStartOfWork(),
                 cinema.getEndOfWork(), cinema.getImageFile());
@@ -46,6 +49,22 @@ public class CinemaRepository implements CrudRepository<CinemaInfo> {
         return jdbcTemplate.query(sql, new CinemaMapper());
     }
 
+    public void updateCinema(CinemaInfo cinemaInfo){
+        String sql =
+                "BEGIN " + " SAVEPOINT before_cinema_delete; " +
+                        "    UPDATE cinema SET cinema_name=?, address=?, phone=?, cinema_info=?, " +
+                        "    number_of_halls=?, start_of_work=?, end_of_work=?, image_file=? " +
+                        "    WHERE cinema_id=?; " +
+                        "    COMMIT; " +
+                        "    EXCEPTION " +
+                        "    WHEN OTHERS THEN " +
+                        "        ROLLBACK TO SAVEPOINT before_cinema_delete; " +
+                        "END;";
+        jdbcTemplate.update(sql, cinemaInfo.getName(), cinemaInfo.getAddress(), cinemaInfo.getPhone(),
+                cinemaInfo.getCinemaInfo(), cinemaInfo.getNumberOfHalls(), cinemaInfo.getStartOfWork(),
+                cinemaInfo.getEndOfWork(), cinemaInfo.getImageFile(), cinemaInfo.getId());
+    }
+
     @Override
     public boolean exists(int ID) {
         return false;
@@ -53,7 +72,16 @@ public class CinemaRepository implements CrudRepository<CinemaInfo> {
 
     @Override
     public void delete(int ID) {
-        //return 0;
+        String sql =
+                "BEGIN " + " SAVEPOINT before_cinema_delete; " +
+                "    DELETE FROM cinema " +
+                "    WHERE cinema_id=?; " +
+                "    COMMIT; " +
+                "    EXCEPTION " +
+                "    WHEN OTHERS THEN " +
+                "        ROLLBACK TO SAVEPOINT before_cinema_delete; " +
+                "END;";
+        jdbcTemplate.update(sql, ID);
     }
 
     public Integer getLastIndex(){
