@@ -3,6 +3,7 @@ package org.billboard.model.poster;
 import java.util.Date;
 
 public class MoviePoster {
+    private int movieId;
     private String movieName;
     private String moviePoster;
     private Date releaseDate;
@@ -12,11 +13,20 @@ public class MoviePoster {
     public MoviePoster() {
     }
 
-    public MoviePoster(String movieName, String moviePoster, Date releaseDate, String genre) {
+    public MoviePoster(int movieId,String movieName, String moviePoster, Date releaseDate, String genre) {
+        this.movieId=movieId;
         this.movieName = movieName;
         this.moviePoster = moviePoster;
         this.releaseDate = releaseDate;
         this.genre = genre;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public String getMovieName() {

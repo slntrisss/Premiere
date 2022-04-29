@@ -16,24 +16,14 @@ public class CinemaHallRepository {
     }
 
     public void save(CinemaHall cinemaHall, int ID){
-        String sql = "BEGIN " +
-                "INSERT INTO cinema_hall VALUES(cinema_hall_id_seq.nextval, ?, ?, ?, ?); " +
-                "COMMIT; " +
-                "END;";
+        String sql = "INSERT INTO cinema_hall VALUES(cinema_hall_id_seq.nextval, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, cinemaHall.getHallName(), ID,
                 cinemaHall.getNumberOfCols(), cinemaHall.getNumberOfRows());
     }
 
     public void update(CinemaHall cinemaHall){
-        String sql =
-                "BEGIN " + " SAVEPOINT before_cinema_delete; " +
-                        "    UPDATE cinema_hall SET hall_name=?, number_of_cols=?, number_of_rows=? " +
-                        "    WHERE cinema_hall_id=?; " +
-                        "    COMMIT; " +
-                        "    EXCEPTION " +
-                        "    WHEN OTHERS THEN " +
-                        "        ROLLBACK TO SAVEPOINT before_cinema_delete; " +
-                        "END;";
+        String sql = "UPDATE cinema_hall SET hall_name=?, number_of_cols=?, number_of_rows=? " +
+                        "WHERE cinema_hall_id=?";
         jdbcTemplate.update(sql, cinemaHall.getHallName(), cinemaHall.getNumberOfCols(),
                 cinemaHall.getNumberOfRows(), cinemaHall.getCinemaHallId());
     }
@@ -44,16 +34,8 @@ public class CinemaHallRepository {
     }
 
     public void deleteCinemaHallById(int ID){
-        String sql =
-                "BEGIN " +
-                        "SAVEPOINT before_cinema_hall_delete; " +
-                "    DELETE FROM cinema_hall " +
-                "    WHERE cinema_hall_id=?; " +
-                "    COMMIT; " +
-                "    EXCEPTION " +
-                "    WHEN OTHERS THEN " +
-                "        ROLLBACK TO SAVEPOINT before_cinema_hall_delete; " +
-                "END;";
+        String sql = "DELETE FROM cinema_hall " +
+                "WHERE cinema_hall_id=? ";
         jdbcTemplate.update(sql, ID);
     }
 }

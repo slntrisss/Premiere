@@ -1,6 +1,7 @@
 package org.billboard.service.dao;
 
-import org.billboard.model.detail.MovieDetail;
+import org.billboard.model.db.Movie;
+import org.billboard.model.detail.MovieInfo;
 import org.billboard.model.poster.MoviePoster;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.billboard.repository.dao.daoImpl.MovieRepository;
@@ -37,8 +38,25 @@ public class MovieService {
         return posters;
     }
 
-    public MovieDetail findMovieById(int ID){
+    public void save(Movie movie){
+        movieRepository.save(movie);
+    }
+
+    public MovieInfo findMovieById(int ID){
         return movieRepository.findMovieDetails(ID);
+    }
+
+    public Movie findOne(int ID){
+        return movieRepository.findOne(ID);
+    }
+    public void update(Movie movie){
+        movieRepository.update(movie);
+    }
+    public void deleteMovieById(int ID){
+        movieRepository.delete(ID);
+    }
+    public Integer getLasId(){
+        return movieRepository.getLastId();
     }
 
     private void formatDate(List<MoviePoster> posters){

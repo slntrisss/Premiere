@@ -2,26 +2,25 @@ package org.billboard.model.detail;
 
 import org.billboard.model.db.Detail;
 import org.billboard.model.db.Movie;
-import org.billboard.model.db.MovieGenre;
 
 
-public class MovieDetail {
+public class MovieInfo {
     private Movie movie;
     private Detail detail;
     private String directors;
     private String actors;
-    private MovieGenre movieGenre;
+    private String genres;
 
-    public MovieDetail() {
+    public MovieInfo() {
     }
 
-    public MovieDetail(Movie movie, Detail detail, String directors,
-                       String actors, MovieGenre movieGenre) {
+    public MovieInfo(Movie movie, Detail detail, String directors,
+                     String actors, String genres) {
         this.movie = movie;
         this.detail = detail;
         this.directors = directors;
         this.actors = actors;
-        this.movieGenre = movieGenre;
+        this.genres = genres;
     }
 
     public Movie getMovie() {
@@ -56,11 +55,11 @@ public class MovieDetail {
         this.actors = actors;
     }
 
-    public MovieGenre getMovieGenre() {
-        return movieGenre;
+    public String getGenres() {
+        return genres;
     }
 
-    public void setMovieGenre(MovieGenre movieGenre) {
-        this.movieGenre = movieGenre;
+    public void setGenres(String genres) {
+        this.genres = genres;
     }
 }

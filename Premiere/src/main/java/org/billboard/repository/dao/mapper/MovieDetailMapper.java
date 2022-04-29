@@ -3,16 +3,16 @@ package org.billboard.repository.dao.mapper;
 import org.billboard.model.db.Detail;
 import org.billboard.model.db.Movie;
 import org.billboard.model.db.MovieGenre;
-import org.billboard.model.detail.MovieDetail;
+import org.billboard.model.detail.MovieInfo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MovieDetailMapper implements RowMapper<MovieDetail> {
+public class MovieDetailMapper implements RowMapper<MovieInfo> {
     @Override
-    public MovieDetail mapRow(ResultSet resultSet, int i) throws SQLException {
-        MovieDetail movieDetail = new MovieDetail();
+    public MovieInfo mapRow(ResultSet resultSet, int i) throws SQLException {
+        MovieInfo movieDetail = new MovieInfo();
         Movie movie = new Movie();
         Detail detail = new Detail();
         MovieGenre movieGenre = new MovieGenre();
@@ -31,10 +31,9 @@ public class MovieDetailMapper implements RowMapper<MovieDetail> {
         detail.setReleaseDate(resultSet.getDate("release_date"));
         detail.setLanguage(resultSet.getString("movie_lang"));
 
-        movieGenre.setGenres(resultSet.getString("genre_list"));
+        movieDetail.setGenres(resultSet.getString("genre_list"));
 
         movieDetail.setMovie(movie);
-        movieDetail.setMovieGenre(movieGenre);
         movieDetail.setDetail(detail);
         movieDetail.setActors(resultSet.getString("actors"));
         movieDetail.setDirectors(resultSet.getString("directors"));

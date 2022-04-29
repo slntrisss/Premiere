@@ -1,6 +1,6 @@
 package org.billboard.controller;
 
-import org.billboard.model.detail.MovieDetail;
+import org.billboard.model.detail.MovieInfo;
 import org.billboard.model.scheduleSort.movie.ScheduleInCinemaOrder;
 import org.billboard.model.scheduleSort.movie.MovieSchedule;
 import org.billboard.service.dao.MovieService;
@@ -27,8 +27,8 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MovieDetail> getMovieDetails(@PathVariable("id") int ID){
-        MovieDetail detail = movieService.findMovieById(ID);
+    public ResponseEntity<MovieInfo> getMovieDetails(@PathVariable("id") int ID){
+        MovieInfo detail = movieService.findMovieById(ID);
         return new ResponseEntity<>(detail, HttpStatus.OK);
     }
 

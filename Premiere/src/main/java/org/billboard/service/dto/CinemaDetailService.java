@@ -7,6 +7,7 @@ import org.billboard.model.dto.CinemaDetail;
 import org.billboard.service.dao.CinemaHallService;
 import org.billboard.service.dao.CinemaService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class CinemaDetailService {
         return cinemaDetail;
     }
 
+    @Transactional
     public void save(CinemaDetail cinemaDetail){
         CinemaInfo cinemaInfo = cinemaDetail.getCinemaInfo();
         List<CinemaHall> cinemaHalls = cinemaDetail.getCinemaHalls();
@@ -49,6 +51,7 @@ public class CinemaDetailService {
         }
     }
 
+    @Transactional
     public void update(CinemaDetail cinemaDetail){
         CinemaInfo cinemaInfo = cinemaDetail.getCinemaInfo();
         List<CinemaHall> cinemaHalls = cinemaDetail.getCinemaHalls();
@@ -57,6 +60,8 @@ public class CinemaDetailService {
             cinemaHallService.updateCinemaHall(cinemaHall);
         }
     }
+
+    @Transactional
     public void deleteCinema(int ID){
         cinemaService.delete(ID);
     }

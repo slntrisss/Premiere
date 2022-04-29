@@ -16,6 +16,7 @@ public class MoviePosterMapper implements RowMapper<MoviePoster> {
         moviePoster.setMovieName(resultSet.getString("movie_name"));
         moviePoster.setReleaseDate(resultSet.getDate("release_date"));
         moviePoster.setGenre(resultSet.getString("genre_list"));
+        moviePoster.setMovieId(resultSet.getInt("movie_id"));
         //Blob blob = resultSet.getBlob("image_file");
         //moviePoster.setMoviePoster(BlobService.encodeImage(blob));
         return moviePoster;

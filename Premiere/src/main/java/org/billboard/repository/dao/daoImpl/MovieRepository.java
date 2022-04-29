@@ -1,9 +1,10 @@
 package org.billboard.repository.dao.daoImpl;
 import org.billboard.model.db.Movie;
-import org.billboard.model.detail.MovieDetail;
+import org.billboard.model.detail.MovieInfo;
 import org.billboard.model.poster.MoviePoster;
 import org.billboard.repository.CrudRepository;
 import org.billboard.repository.dao.mapper.MovieDetailMapper;
+import org.billboard.repository.dao.mapper.MovieMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,17 +27,18 @@ public class MovieRepository implements CrudRepository<Movie> {
 
     @Override
     public void save(Movie movie) {
-
+        String sql = "INSERT INTO MOVIE VALUES(movie_id_seq.nextval, ?, ?, ?) ";
+        jdbcTemplate.update(sql, movie.getMovieName(), movie.getOriginalName(), movie.getImageFile());
     }
 
     @Override
     public Movie findOne(int ID) {
         String sql = "SELECT * FROM movie " +
-                "WHERE m.movie_id=?";
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Movie.class), ID);
+                "WHERE movie_id=?";
+        return jdbcTemplate.queryForObject(sql, new MovieMapper(), ID);
     }
 
-    public MovieDetail findMovieDetails(int ID){
+    public MovieInfo findMovieDetails(int ID){
         String sql = "SELECT m.movie_id, m.image_file, m.movie_name, m.original_name, " +
                 "movie_mgmt.get_movie_genre_list(m.movie_id) as genre_list, " +
                 "d.rating, d.number_of_votes, d.description, d.country, d.release_date, d.movie_lang, " +
@@ -56,7 +58,7 @@ public class MovieRepository implements CrudRepository<Movie> {
     }
 
     public List<MoviePoster> findAllMovies(){
-        String sql = "SELECT m.image_file, m.movie_name, d.release_date, " +
+        String sql = "SELECT m.image_file, m.movie_id, m.movie_name, d.release_date, " +
                 "movie_mgmt.get_movie_genre_list(m.movie_id) " +
                 "as genre_list " +
                 "FROM movie m, detail d " +
@@ -75,7 +77,7 @@ public class MovieRepository implements CrudRepository<Movie> {
     }
 
     public List<MoviePoster> findMoviesForKids(){
-        String sql = "select m.image_file, m.movie_name, d.release_date, " +
+        String sql = "select m.image_file, m.movie_id, m.movie_name, d.release_date, " +
                 "get_movie_genre_list(m.movie_id) as genre_list " +
                 "from movie m, detail d, genre g, movie_genre mg " +
                 "where m.movie_id=mg.movie_id " +
@@ -92,10 +94,20 @@ public class MovieRepository implements CrudRepository<Movie> {
         return Boolean.TRUE.equals(jdbcTemplate.query(sql, new Object[]{ID}, ResultSet::next));
     }
 
+    public void update(Movie movie){
+        String sql = "UPDATE movie SET movie_name=?, original_name=?, image_file=? " +
+                "WHERE movie_id=?";
+        jdbcTemplate.update(sql, movie.getMovieName(), movie.getOriginalName(),
+                movie.getImageFile(), movie.getMovieId());
+    }
     @Override
     public void delete(int ID) {
         String deleteSql = "DELETE FROM movie WHERE movie_id=?";
         jdbcTemplate.update(deleteSql, ID);
-        //return ID;
+    }
+
+    public Integer getLastId(){
+        String sql = "SELECT max(movie_id) FROM movie";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }
