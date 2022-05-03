@@ -1,7 +1,10 @@
-package org.billboard.model.detail;
+package org.billboard.model.dto;
 
+import org.billboard.model.db.CinemaSeat;
 import org.billboard.model.db.Schedule;
 import org.billboard.model.db.TicketType;
+
+import java.util.List;
 
 public class BookingSchedule {
     private String imageFile;
@@ -12,12 +15,16 @@ public class BookingSchedule {
     private Schedule schedule;
     private String language;
     private TicketType ticketType;
+    private int numberOfRows;
+    private int numberOfCols;
+    private List<CinemaSeat> reservedSeats;
 
     public BookingSchedule() {
     }
 
     public BookingSchedule(String imageFile, String movieName, String cinemaName,
-                           String hallName, int ageRating, Schedule schedule, String language,
+                           String hallName, int ageRating, Schedule schedule,
+                           String language, int numberOfRows, int numberOfCols,
                            TicketType ticketType) {
         this.imageFile = imageFile;
         this.movieName = movieName;
@@ -26,7 +33,26 @@ public class BookingSchedule {
         this.ageRating = ageRating;
         this.schedule = schedule;
         this.language = language;
+        this.numberOfRows = numberOfRows;
+        this.numberOfCols = numberOfCols;
         this.ticketType = ticketType;
+    }
+
+    public BookingSchedule(String imageFile, String movieName, String cinemaName,
+                           String hallName, int ageRating, Schedule schedule,
+                           String language, TicketType ticketType, int numberOfRows,
+                           int numberOfCols, List<CinemaSeat> reservedSeats) {
+        this.imageFile = imageFile;
+        this.movieName = movieName;
+        this.cinemaName = cinemaName;
+        this.hallName = hallName;
+        this.ageRating = ageRating;
+        this.schedule = schedule;
+        this.language = language;
+        this.ticketType = ticketType;
+        this.numberOfRows = numberOfRows;
+        this.numberOfCols = numberOfCols;
+        this.reservedSeats = reservedSeats;
     }
 
     public String getImageFile() {
@@ -85,11 +111,35 @@ public class BookingSchedule {
         this.language = language;
     }
 
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    public void setNumberOfRows(int numberOfRows) {
+        this.numberOfRows = numberOfRows;
+    }
+
+    public int getNumberOfCols() {
+        return numberOfCols;
+    }
+
+    public void setNumberOfCols(int numberOfCols) {
+        this.numberOfCols = numberOfCols;
+    }
+
     public TicketType getTicketType() {
         return ticketType;
     }
 
     public void setTicketType(TicketType ticketType) {
         this.ticketType = ticketType;
+    }
+
+    public List<CinemaSeat> getReservedSeats() {
+        return reservedSeats;
+    }
+
+    public void setReservedSeats(List<CinemaSeat> reservedSeats) {
+        this.reservedSeats = reservedSeats;
     }
 }

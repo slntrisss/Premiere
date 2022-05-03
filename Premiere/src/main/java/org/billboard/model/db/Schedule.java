@@ -3,15 +3,25 @@ package org.billboard.model.db;
 import java.util.Date;
 
 public class Schedule {
+    private int scheduleId;
     private Date date;
     private String startTime;
 
     public Schedule() {
     }
 
-    public Schedule(Date date, String startTime) {
+    public Schedule(int scheduleId, Date date, String startTime) {
+        this.scheduleId = scheduleId;
         this.date = date;
         this.startTime = startTime;
+    }
+
+    public int getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(int scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public Date getDate() {
