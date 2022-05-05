@@ -1,5 +1,6 @@
 package org.billboard.repository.scheduleSort;
 
+import org.billboard.model.db.Schedule;
 import org.billboard.model.scheduleSort.cinema.CinemaSchedule;
 import org.billboard.model.scheduleSort.movie.MovieSchedule;
 import org.billboard.repository.scheduleSort.mapper.CinemaScheduleMapper;
@@ -19,7 +20,7 @@ public class ScheduleRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<org.billboard.model.scheduleSort.movie.MovieSchedule> getScheduleOrderByTime(int ID){
+    public List<MovieSchedule> getScheduleOrderByTime(int ID){
         String sql = "select c.cinema_name, c.address, c.phone, ch.hall_name, s.start_time, s.schedule_date, " +
                 "d.movie_lang, t.adult_ticket, t.youth_ticket, t.student_ticket " +
                 "from movie m, cinema c, cinema_hall ch, detail d, schedule s, ticket_type t " +
@@ -82,5 +83,17 @@ public class ScheduleRepository {
                 "and util_date.compare_dates(sysdate, util_date.date_to_hours(s.start_time, s.schedule_date)) = -1 " +
                 "order by m.movie_name, s.start_time";
         return jdbcTemplate.query(sql, new CinemaScheduleMapper(), ID);
+    }
+
+    public void addSchedule(Schedule schedule, int hallId, int movieId){
+        String sql = "INSERT INTO schedule " +
+                "VALUES(schedule_id_seq.nextval, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, schedule.getDate(), schedule.getStartTime(), hallId,
+                movieId);
+    }
+
+    public Integer getLastId(){
+        String sql = "SELECT max(schedule_id) FROM schedule";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }

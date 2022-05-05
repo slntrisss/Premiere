@@ -54,7 +54,15 @@ public class MovieRepository implements CrudRepository<Movie> {
     @Override
     public List<Movie> findAll() {
         String sql = "SELECT * FROM movie";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Movie.class));
+        return jdbcTemplate.query(sql, new MovieMapper());
+    }
+
+    public List<Movie> getMoviesRollingToday() {
+        String sql = "select m.MOVIE_ID, m.MOVIE_NAME, m.ORIGINAL_NAME " +
+                "from MOVIE m, DETAIL d " +
+                "where d.RELEASE_DATE <=sysdate " +
+                "and m.MOVIE_ID=d.MOVIE_ID";
+        return jdbcTemplate.query(sql, new MovieMapper());
     }
 
     public List<MoviePoster> findAllMovies(){

@@ -1,4 +1,4 @@
-package org.billboard.controller;
+package org.billboard.controller.main;
 
 import org.billboard.model.detail.MovieInfo;
 import org.billboard.model.scheduleSort.movie.ScheduleInCinemaOrder;

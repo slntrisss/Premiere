@@ -32,6 +32,8 @@ public class BookingController{
         return new ResponseEntity<>(bookingSchedule, HttpStatus.OK);
     }
 
+
+
     @GetMapping("/get_reserved_seats")
     public ResponseEntity<List<CinemaSeat>> getReservedSeats(@RequestParam("hallId") int hallId,
                                                              @RequestParam("scheduleId")int scheduleId){

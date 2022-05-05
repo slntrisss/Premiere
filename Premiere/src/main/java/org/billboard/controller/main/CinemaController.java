@@ -1,4 +1,4 @@
-package org.billboard.controller;
+package org.billboard.controller.main;
 
 import org.billboard.model.db.Cinema;
 import org.billboard.model.db.CinemaInfo;
